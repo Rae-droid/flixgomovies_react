@@ -6,7 +6,7 @@ import dotenv from 'dotenv';
 import  connectDB from './config/db.js';
 import generateToken from './config/jwt.js';
  // Ensure JWT config is loaded
-import errorHandler from './middlewares/errorMiddleware.js';
+import errorMiddleware from './middlewares/errorMiddleware.js';
 
 // Load env vars
 dotenv.config();
@@ -47,7 +47,7 @@ app.use('/api/v1/movies', movieRoutes);
 app.use('/api/v1/users', userRoutes);
 
 // Error handler middleware
-app.use(errorHandler);
+app.use(errorMiddleware);
 
 const PORT = process.env.PORT || 5000;
 

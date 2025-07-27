@@ -56,4 +56,4 @@ router
   .route('/:id/photo')
   .put(protect, authorize('admin'), uploadMoviePhoto);
 
-export default router;
+export default Movie;
