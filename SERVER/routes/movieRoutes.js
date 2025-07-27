@@ -1,14 +1,45 @@
-const express = require('express');
-const {
+import express from 'express';
+import mongoose from 'mongoose';
+import {
   getMovies,
   getMovie,
   createMovie,
   updateMovie,
   deleteMovie,
   uploadMoviePhoto,
-} = require('../controllers/movieController');
-const { protect, authorize } = require('../middlewares/authMiddleware');
+} from '../controllers/movieController.js';
+import { protect } from '../middlewares/authMiddleware.js';
 const router = express.Router();
+
+const MovieSchema = new mongoose.Schema({
+  title: {
+    type: String,
+    required: true,
+  },
+  genre: {
+    type: String,
+    required: true,
+  },
+  releaseYear: {
+    type: Number,
+    required: true,
+  },
+  director: {
+    type: String,
+    required: true,
+  },
+  cast: [String],
+  description: {
+    type: String,
+    required: true,
+  },
+  imageUrl: {
+    type: String,
+    required: true,
+  },
+});
+
+const Movie = mongoose.model('Movie', MovieSchema);
 
 router
   .route('/')
@@ -25,4 +56,4 @@ router
   .route('/:id/photo')
   .put(protect, authorize('admin'), uploadMoviePhoto);
 
-export  default router;
+export default router;
