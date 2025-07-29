@@ -9,19 +9,19 @@ import authRoutes from "./routes/auth.js";
 
 import userDataRoute from "./routes/userDataRoute.js";
 import User from "./models/User.js";
-import { requireAuth } from "./middleware/auth.js";
+import { requireAuth } from "../SERVER/middlewares/auth.js";
 
 
 dotenv.config();
 const app = express();
 
-app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
+// app.use(cors({ credentials: true, origin: "http://localhost:5173" }));
 
-app.post(
-  "/api/paystack/webhook",
-  express.raw({ type: "application/json" }),
-  paystackRoutes
-);
+// app.post(
+//   "/api/paystack/webhook",
+//   express.raw({ type: "application/json" }),
+//   paystackRoutes
+// );
 app.use(express.json());
 
 // Routes

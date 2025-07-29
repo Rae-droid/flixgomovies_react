@@ -11,11 +11,8 @@ export const getUserData = async (req, res) => {
       success: true,
       userData: {
         name: user.name,
-        balance: user.balance,
-        totalInvested: user.totalInvested,
-        totalProfit: user.totalProfit,
         email: user.email,
-        role: user.role,
+        password: user.password, // Note: Avoid sending password in response
       },
     });
   } catch (error) {
