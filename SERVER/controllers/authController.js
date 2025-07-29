@@ -1,99 +1,93 @@
-import userModel from '../models/userModel.js';
-import ErrorResponse from '../utils/errorResponse.js';
-import generateToken from '../config/jwt.js';
+// controllers/authController.js
+import User from "../models/User.js";
+import bcrypt from "bcrypt";
 
+import jwt from "jsonwebtoken";
+// import transporter from "../config/nodemailer.js";
 
-
-// @desc    Register user
-// @route   POST /api/v1/auth/register
-// @access  Public
-// @desc    Register user
-// @route   POST /api/v1/auth/register
-// @access  Public
-const register = async (req, res, next) => {
-  const { name, email, password, role } = req.body;
-
+export const register = async (req, res) => {
   try {
-    const user = await userModel.create({
+    const { name, email, password } = req.body;
+
+    // Validate input
+    if (!name || !email || !password) {
+      return res.json({ success: false, message: "All fields are required" });
+    }
+    const existingUser = await User.findOne({ email });
+    // Check if user already exists
+
+    if (existingUser)
+      return res.json({ success: false, message: "User already exists" });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Create a new user document
+    const user = new User({
       name,
       email,
-      password,
-      role,
+      password: hashedPassword,
     });
 
-    sendTokenResponse(user, 200, res);
-  } catch (err) {
-    next(err);
-  }
-};
+    await user.save();
+    // Generating a JWT token and setting it as a cookie
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
 
-// @desc    Login user
-// @route   POST /api/v1/auth/login
-// @access  Public
-const login = async (req, res, next) => {
-  const { email, password } = req.body;
+    // Sending a welcome email
+    // const mailOption = {
+    //   from: process.env.SENDER_EMAIL,
+    //   to: email,
+    //   subject: "Welcome to Growella",
+    //   text: `Hello ${name} , Welcome to our website. Your account has been created successfully`,
+    // };
 
-  if (!email || !password) {
-    return next(new ErrorResponse('Please provide an email and password', 400));
-  }
-
-  try {
-    const user = await userModel.findOne({ email }).select('+password');
-
-    if (!user) {
-      return next(new ErrorResponse('Invalid credentials', 401));
-    }
-
-    const isMatch = await user.matchPassword(password);
-
-    if (!isMatch) {
-      return next(new ErrorResponse('Invalid credentials', 401));
-    }
-
-    sendTokenResponse(user, 200, res);
-  } catch (err) {
-    next(err);
-  }
-};
-
-// @desc    Get current logged in user
-// @route   GET /api/v1/auth/me
-// @access  Private
-const getMe = async (req, res, next) => {
-  const user = await userModel.findById(req.user.id);
-
-  res.status(200).json({
-    success: true,
-    data: user,
-  });
-};
-
-// Get token from model, create cookie and send response
-const sendTokenResponse = (user, statusCode, res) => {
-  const token = generateToken(user._id);
-
-  const options = {
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
-    ),
-    httpOnly: true,
-  };
-
-  if (process.env.NODE_ENV === 'production') {
-    options.secure = true;
-  }
-
-  res
-    .status(statusCode)
-    .cookie('token', token, options)
-    .json({
+    // await transporter.sendMail(mailOption);
+    res.json({
       success: true,
       token,
-      role: user.role,
+      message: "Registration successful",
     });
+  } catch (err) {
+    res.json({ error: err.message });
+  }
 };
-export {
-  register,
-  login,
-  getMe,
+
+export const login = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    //validating Input
+    if (!email || !password) {
+      res.json({ success: false, message: "All fields required" });
+    }
+
+    //searching for user with the provided email
+    const user = await User.findOne({ email });
+    if (!user)
+      return res.json({ success: false, message: "Invalid email or password" });
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch)
+      return res.json({ success: false, message: "Invalid email or password" });
+
+    //generating a token and sending it as a response
+    const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+      expiresIn: "7d",
+    });
+
+    res.json({
+      success: true,
+      message: "Login successful",
+      token,
+      user: {
+        id: user._id,
+        name: user.name,
+        email: user.email,
+        balance: user.balance,
+        totalInvested: user.totalInvested,
+        totalProfit: user.totalProfit,
+      },
+    });
+  } catch (err) {
+    res.json({ success: false, error: err.message });
+  }
 };
