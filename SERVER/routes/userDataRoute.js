@@ -5,6 +5,6 @@ import { getUserData } from "../controllers/userDataController.js";
 
 const userDataRoute = express.Router();
 
-userDataRoute.get("/movie", requireAuth, getUserData);
+userDataRoute.get("/data", requireAuth, getUserData);
 
 export default userDataRoute;

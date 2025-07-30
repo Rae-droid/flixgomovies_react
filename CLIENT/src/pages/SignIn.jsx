@@ -142,7 +142,7 @@ const SignInPage = () => {
                   Signing in...
                 </>
               ) : (
-                'Sign In'
+                'SignIn'
               )}
             </motion.button>
           </form>

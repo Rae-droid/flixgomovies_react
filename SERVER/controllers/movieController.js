@@ -1,16 +1,18 @@
+// import movieSchema from "../models/movieSchema";
+
 import movieSchema from "../models/movieSchema";
 
 
-export const movieSchema = async (req, res) => {
+export const movie = async (req, res) => {
  try {
-     const userId = req.userId;
-     const user = await userModel.findById(userId);
-     if (!user) {
+     const movieId = req.params.id;
+     const movie = await movieSchema.findById(movieId);
+     if (!movie) {
        return res.json({ success: false, message: "Movie Not Found" });
      }
      res.json({
        success: true,
-       movieData: {
+       movieSchema: {
          title: movie.title,
          releaseDate: movie.releaseDate,
          rating: movie.rating,
@@ -25,3 +27,5 @@ export const movieSchema = async (req, res) => {
      return res.json({ success: false, message: error.message });
    }
  };
+
+ export default movieSchema;

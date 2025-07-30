@@ -5,7 +5,7 @@ import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 // import transporter from "../config/nodemailer.js";
 
-export const register = async (req, res) => {
+export const Register = async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
@@ -53,7 +53,7 @@ export const register = async (req, res) => {
   }
 };
 
-export const login = async (req, res) => {
+export const SignIn = async (req, res) => {
   try {
     const { email, password } = req.body;
     //validating Input
@@ -79,15 +79,18 @@ export const login = async (req, res) => {
       message: "Login successful",
       token,
       user: {
-        id: user._id,
+      
         name: user.name,
         email: user.email,
-        balance: user.balance,
-        totalInvested: user.totalInvested,
-        totalProfit: user.totalProfit,
-      },
+        password: user.password, // Note: Avoid sending password in response
+      }
     });
+
   } catch (err) {
     res.json({ success: false, error: err.message });
   }
+};
+export default  {
+  register,
+  SignIn,
 };

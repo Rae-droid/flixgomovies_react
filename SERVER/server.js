@@ -1,6 +1,6 @@
 import express from "express";
 import dotenv from "dotenv";
-import cors from "cors";
+// import cors from "cors";
 import connectDB from "./config/db.js";
 
 
@@ -10,6 +10,7 @@ import authRoutes from "./routes/auth.js";
 import userDataRoute from "./routes/userDataRoute.js";
 import User from "./models/User.js";
 import { requireAuth } from "../SERVER/middlewares/auth.js";
+import movieRoute from "./routes/movieRoute.js";
 
 
 dotenv.config();
@@ -32,7 +33,12 @@ app.get("/api/isAuth", requireAuth, async (req, res) => {
   const user = await User.findById(req.userId);
   res.json({ message: "Access granted", user });
 });
-
+app.get("/api/user/:id", requireAuth, async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (!user) return res.status(404).json({ message: "User not found" });
+  res.json(user);
+});
+app.use('/api/movie', movieRoute);
 
 app.use(express.json());
 
