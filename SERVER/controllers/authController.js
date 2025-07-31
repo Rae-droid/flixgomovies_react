@@ -34,15 +34,6 @@ export const Register = async (req, res) => {
       expiresIn: "7d",
     });
 
-    // Sending a welcome email
-    // const mailOption = {
-    //   from: process.env.SENDER_EMAIL,
-    //   to: email,
-    //   subject: "Welcome to Growella",
-    //   text: `Hello ${name} , Welcome to our website. Your account has been created successfully`,
-    // };
-
-    // await transporter.sendMail(mailOption);
     res.json({
       success: true,
       token,
@@ -79,18 +70,12 @@ export const SignIn = async (req, res) => {
       message: "Login successful",
       token,
       user: {
-      
         name: user.name,
         email: user.email,
         password: user.password, // Note: Avoid sending password in response
-      }
+      },
     });
-
   } catch (err) {
     res.json({ success: false, error: err.message });
   }
-};
-export default  {
-  register,
-  SignIn,
 };

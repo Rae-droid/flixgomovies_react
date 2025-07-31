@@ -3,7 +3,6 @@ import dotenv from "dotenv";
 // import cors from "cors";
 import connectDB from "./config/db.js";
 
-
 // Routes
 import authRoutes from "./routes/auth.js";
 
@@ -11,7 +10,6 @@ import userDataRoute from "./routes/userDataRoute.js";
 import User from "./models/User.js";
 import { requireAuth } from "../SERVER/middlewares/auth.js";
 import movieRoute from "./routes/movieRoute.js";
-
 
 dotenv.config();
 const app = express();
@@ -38,7 +36,7 @@ app.get("/api/user/:id", requireAuth, async (req, res) => {
   if (!user) return res.status(404).json({ message: "User not found" });
   res.json(user);
 });
-app.use('/api/movie', movieRoute);
+app.use("/api/movie", movieRoute);
 
 app.use(express.json());
 

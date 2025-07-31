@@ -1,10 +1,10 @@
 import express from "express";
 import { requireAuth } from "../middlewares/auth.js";
 
-import { movieSchema } from "../controllers/movieController.js";
+import { getMovie } from "../controllers/movieController.js";
 
 const movieRoute = express.Router();
 
-movieRoute.get("/movie", requireAuth, movieSchema);
+movieRoute.get("/get-movie", requireAuth, getMovie);
 
 export default movieRoute;
