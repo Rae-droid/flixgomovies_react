@@ -58,7 +58,7 @@ const SignUpPage = () => {
           username: '',
           email: '',
           password: '',
-          confirmPassword: ''
+          confirmPassword: '',
         });
         setErrors({});
         // Navigate  ('/index'); // Redirect to Sign In page after successful registration

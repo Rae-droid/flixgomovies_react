@@ -155,10 +155,12 @@ const Dashboard = () => {
         </nav>
         
         <div className="p-4 border-t border-gray-700/50">
+        <a href='/settings'>
           <button className="flex items-center w-full px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-700/50 transition-colors">
             <FaCog className="mr-3" />
             Settings
           </button>
+        </a>
         </div>
       </div>
 

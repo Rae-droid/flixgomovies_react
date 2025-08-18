@@ -10,6 +10,7 @@ import  SignIn from './pages/SignIn';
 import TopRated   from './pages/TopRated';
 import  Trending from './pages/Trending';
 import  Dashboard from './pages/Dashboard';
+import Settings from './pages/Settings';
 import axios from 'axios';
 
 
@@ -43,6 +44,7 @@ const App = () => {
           <Route path='/toprated' element={<TopRated />} />
           <Route path='/trending' element={<Trending />} />
           <Route path='/dashboard' element={<Dashboard />} />
+          <Route path='/settings' element={<Settings />} />
           {/* Add more routes here as needed */}
         </Routes>
        </Router>

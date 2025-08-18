@@ -16,7 +16,8 @@ const MovieHomepage = () => {
       rating: 4.8, 
       genre: 'Action', 
       isFavorite: true,
-      image: 'https://i.pinimg.com/1200x/57/a9/a8/57a9a84042924f04ee543ca04b463789.jpg'
+      image: 'https://i.pinimg.com/1200x/57/a9/a8/57a9a84042924f04ee543ca04b463789.jpg',
+      youtubeUrl: 'https://youtu.be/uLtkt8BonwM'
     },
     { 
       id: 2, 
@@ -25,7 +26,8 @@ const MovieHomepage = () => {
       rating: 4.5, 
       genre: 'Sad', 
       isFavorite: false,
-      image: 'https://i.pinimg.com/736x/45/b2/98/45b29804c5ff8f7e88128533dde17752.jpg'
+      image: 'https://i.pinimg.com/736x/45/b2/98/45b29804c5ff8f7e88128533dde17752.jpg',
+      youtubeUrl: 'https://youtu.be/k1vWhii4tkE'
     },
     { 
       id: 3, 
@@ -34,7 +36,8 @@ const MovieHomepage = () => {
       rating: 4.9, 
       genre: 'Horror', 
       isFavorite: true,
-      image: 'https://i.pinimg.com/736x/1a/dc/52/1adc525a396c072c684d8e54d8f96d2e.jpg'
+      image: 'https://i.pinimg.com/736x/1a/dc/52/1adc525a396c072c684d8e54d8f96d2e.jpg',
+      youtubeUrl: 'https://youtu.be/ZHosNToUXfo'
     },
     { 
       id: 4, 
@@ -43,7 +46,8 @@ const MovieHomepage = () => {
       rating: 4.2, 
       genre: 'Horror', 
       isFavorite: false,
-      image: 'https://i.pinimg.com/1200x/2f/79/12/2f7912938d05dbc71e59404f9341eabc.jpg'
+      image: 'https://i.pinimg.com/1200x/2f/79/12/2f7912938d05dbc71e59404f9341eabc.jpg',
+      youtubeUrl: 'https://youtu.be/e4WSuFndZcw'
     },
     { 
       id: 5, 
@@ -52,7 +56,8 @@ const MovieHomepage = () => {
       rating: 4.7, 
       genre: 'Thriller', 
       isFavorite: false,
-      image: 'https://i.pinimg.com/1200x/89/a3/42/89a342b2b260eaf7cbf3fa9bf6b7fd58.jpg'
+      image: 'https://i.pinimg.com/1200x/89/a3/42/89a342b2b260eaf7cbf3fa9bf6b7fd58.jpg',
+      youtubeUrl: 'https://youtu.be/yqVLRvO2bnM'
     },
   ]);
 
@@ -159,7 +164,8 @@ const MovieHomepage = () => {
                 New Release
               </span>
               <h1 className="text-5xl md:text-6xl font-bold mb-4 leading-tight">{featuredMovie.title}</h1>
-              <div className="flex flex-wrap items-center gap-4 mb-6">
+              <a href=''>
+                <div className="flex flex-wrap items-center gap-4 mb-6">
                 <span className="flex items-center text-yellow-400 bg-yellow-500/10 px-3 py-1 rounded-full">
                   <FaStar className="mr-1" /> {featuredMovie.rating}
                 </span>
@@ -167,6 +173,7 @@ const MovieHomepage = () => {
                 <span className="bg-gray-800/50 px-3 py-1 rounded-full">{featuredMovie.duration}</span>
                 <span className="bg-pink-600/20 text-pink-400 px-3 py-1 rounded-full">{featuredMovie.genre}</span>
               </div>
+              </a>
               <p className="text-gray-300 mb-8 text-lg max-w-xl">{featuredMovie.description}</p>
               <div className="flex flex-wrap gap-4">
                 <motion.button 
@@ -238,9 +245,14 @@ const MovieHomepage = () => {
                 </span>
               </div>
               <div className="flex space-x-2 mt-3">
-                <button className="bg-pink-600/80 text-white p-2 rounded-full hover:bg-pink-500 transition-colors transform hover:scale-110">
+                <a
+                  href={movie.youtubeUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-pink-600/80 text-white p-2 rounded-full hover:bg-pink-500 transition-colors transform hover:scale-110 flex items-center justify-center"
+                >
                   <FaPlay className="text-xs" />
-                </button>
+                </a>
                 <button className="bg-gray-800/80 text-white p-2 rounded-full hover:bg-gray-700 transition-colors transform hover:scale-110">
                   {movie.isFavorite ? <FaHeart className="text-pink-500" /> : <FaRegHeart />}
                 </button>
