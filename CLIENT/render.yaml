@@ -1,9 +1,0 @@
-services:
-  - type: web
-    name: flixgo-client
-    runtime: static
-    staticPublishPath: dist
-    buildCommand: npm run build
-    envVars:
-      - key: NODE_VERSION
-        value: 20
